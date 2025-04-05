@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <link rel="stylesheet" href="style.css"> </head>
+<body>
+    <header>
+        <h1>Your Own Tower Analysis</h1>
+        <nav>
+            <ul>
+                <li><a href="/homePage.html">Home</a></li>
+                <li><a href="/insertPage.html">Upload Image</a></li>
+                <li><a href="/galleryPage.html">Gallery</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="upload-section">
+            <h2>Find Your Perfect Tower</h2>
+            <p>Upload an image of your cell tower and we will rate it.</p>
+            <form id="upload-form" enctype="multipart/form-data">
+                <input type="file" id="image-input" name="image" accept="image/*" required>
+                <button type="submit">Analyze Your Tower</button>
+            </form>
+            <div id="upload-status">
+                </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Lana Tran | <a href="https://www.linkedin.com/in/lana-tran-pie/">LinkedIn</a></li> | <a href="https://github.com/Pieisawesome/WeHack25#">GitHub</a>
+        </p>
+    </footer>
+
+    <script src="insert.js"></script> </body>
+</html>

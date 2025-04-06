@@ -16,17 +16,34 @@
         </nav>
     </header>
 
+    <script>
+        // Function to get URL parameters
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Get the 'tower_id' parameter from the URL
+        const tower_id = getUrlParameter('tower_id');
+
+        // Update the image source based on the 'tower_id' parameter
+        function updateImageSource() {
+            if (tower_id) {
+                const imgElement = document.getElementById('tower-image');
+                imgElement.src = `../uploads/${tower_id}/image.jpg`;
+            }
+        }
+
+        // Call the function to update the image source when the page loads
+        window.onload = updateImageSource;
+    </script>
+
     <main>
-        <h1>
-        <script>
-        print("Tower Profile: " ${number})
-        </script>
-        </h1>
+        <h1>Image Gallery</h1>
         <div class="image-gallery">
             <div class="gallery-item">
-                <img src="/uploads/{{ tower_id }}/${image}" alt="Tower Image" style="max-width: 300px;">
-            </div>
-        </div>
+                <img id="tower-image" src="" alt="Tower Image" style="max-width: 300px;">
+
 
         <h2>Analysis Results</h2>
         <div class="analysis-result" id="analysis-results-container">

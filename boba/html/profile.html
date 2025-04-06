@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tower Profile: {{ tower_id }}</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Find Hot Signals In Your Area: <br>Cell Phone Tower</h1>
+        <nav>
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./insert.html">Upload Image</a></li>
+                <li><a href="./gallery.html">Gallery</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>
+        <script>
+        print("Tower Profile: " ${number})
+        </script>
+        </h1>
+        <div class="image-gallery">
+            <div class="gallery-item">
+                <img src="/uploads/{{ tower_id }}/${image}" alt="Tower Image" style="max-width: 300px;">
+            </div>
+        </div>
+
+        <h2>Analysis Results</h2>
+        <div class="analysis-result" id="analysis-results-container">
+        </div>
+        <p>No analysis results available for this tower.</p>
+
+        <p><a href="./gallery.html">Back to Gallery</a></p>
+    </main>
+
+    <footer>
+        <p>Lana Tran | <a href="https://www.linkedin.com/in/lana-tran-pie/">LinkedIn</a></li> | <a href="https://github.com/Pieisawesome/WeHack25#">GitHub</a>
+        </p>
+    </footer>
+    <script>
+        const analysisResults = JSON.parse('{{ analysis_results }}');
+        const container = document.getElementById('analysis-results-container');
+
+        analysisResults.forEach(result => {
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'analysis-result';
+            resultDiv.innerHTML = `<pre>${result.analysis}</pre>`;
+            container.appendChild(resultDiv);
+        });
+    </script>
+</body>
+</html>

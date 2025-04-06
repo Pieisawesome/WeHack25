@@ -19,29 +19,30 @@
     <main>
         <h1>Analysis Results</h1>
         <h3>Tower ID: {{ tower_id }}</h3>
-        {% if filenames %}
-            {% for i in range(filenames|length) %}
-                <div class="analysis-result">
-                    <h3>Image: {{ filenames[i] }}</h3>
-                    <img src="/uploads/{{ tower_id }}/{{ filenames[i] }}" alt="{{ filenames[i] }}" style="max-width: 500px;">
-                    {% if analysis_results[i].error %}
-                        <p class="error">Error: {{ analysis_results[i].error }}</p>
-                    {% elif analysis_results[i].analysis %}
-                        <pre>{{ analysis_results[i].analysis }}</pre>
-                    {% else %}
-                        <p>No analysis available for this image.</p>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No images were analyzed.</p>
-        {% endif %}
-        <p><a href="/gallery.html">View Gallery</a></p>
+        <div id="analysis-results-container">
+        </div>
+        <p><a href="./gallery.html">View Gallery</a></p>
     </main>
 
     <footer>
         <p>Lana Tran | <a href="https://www.linkedin.com/in/lana-tran-pie/">LinkedIn</a></li> | <a href="https://github.com/Pieisawesome/WeHack25#">GitHub</a>
         </p>
     </footer>
+    <script>
+        const analysisResults = JSON.parse('{{ analysis_results }}');
+        const container = document.getElementById('analysis-results-container');
+
+        analysisResults.forEach((result, index) => {
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'analysis-result';
+            resultDiv.innerHTML = `
+                <h3>Image: ${filenames[index]}</h3>
+                <img src="/uploads/${tower_id}/${filenames[index]}" alt="${filenames[index]}" style="max-width: 500px;">
+                <p class="error">${result.error ? 'Error: ' + result.error : ''}</p>
+                <pre>${result.analysis ? result.analysis : 'No analysis available for this image.'}</pre>
+            `;
+            container.appendChild(resultDiv);
+        });
+    </script>
 </body>
 </html>

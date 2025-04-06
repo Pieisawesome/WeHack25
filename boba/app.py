@@ -7,6 +7,7 @@ import io
 import time
 import uuid
 import base64  # Import base64
+import json  # Import the json module
 
 load_dotenv()
 app = Flask(__name__)
@@ -114,9 +115,9 @@ STATIC_GEMINI_PROMPT = ("Analyze these images. For each tower, provide the follo
 def index():
     return render_template('index.html')
 
-@app.route('/insertPage.html', methods=['GET'])
+@app.route('/insert.html', methods=['GET'])
 def insert_page():
-    return render_template('insertPage.html')
+    return render_template('insert.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_images_for_analysis():
@@ -154,9 +155,12 @@ def upload_images_for_analysis():
     ]
     analysis_results = analyze_with_gemini(image_data_list, bounding_boxes_list, full_gemini_prompt) # Pass image paths
 
-    return render_template('analysis_results.html', filenames=uploaded_filenames, analysis_results=analysis_results, tower_id=tower_id)
+    # Convert analysis results to JSON
+    analysis_results_json = json.dumps(analysis_results)
 
-@app.route('/galleryPage.html')
+    return render_template('analysis_results.html', filenames=uploaded_filenames, analysis_results=analysis_results_json, tower_id=tower_id)
+
+@app.route('/gallery.html')
 def gallery():
     """Displays a list of towers, showing one representative image per tower."""
     towers = []
@@ -172,7 +176,9 @@ def gallery():
                 'representative_image': representative_image,
                 'image_count': len(image_files)
             })
-    return render_template('galleryPage.html', towers=towers)
+    # Convert towers data to JSON
+    towers_json = json.dumps(towers)
+    return render_template('gallery.html', towers=towers_json)
 
 @app.route('/profile/<tower_id>')
 def view_profile(tower_id):
@@ -188,8 +194,9 @@ def view_profile(tower_id):
     # if os.path.exists(analysis_file_path):
     #     with open(analysis_file_path, 'r') as f:
     #         analysis_results = json.load(f)
+    analysis_results_json = json.dumps(analysis_results) #convert to json
 
-    return render_template('profile.html', tower_id=tower_id, images=image_files, analysis_results=analysis_results)
+    return render_template('profile.html', tower_id=tower_id, images=image_files, analysis_results=analysis_results_json)
 
 @app.route('/static/<path:filename>')
 def serve_static(filename):
@@ -198,7 +205,7 @@ def serve_static(filename):
 @app.route('/uploads/<tower_id>/<filename>')
 def serve_image(tower_id, filename):
     """Serves images from the tower-specific upload folder."""
-    return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], tower_id), filename)
+    return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], tower_id), filename=filename)
 
 if __name__ == '__main__':
     app.run(debug=True)

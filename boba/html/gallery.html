@@ -21,16 +21,7 @@
     <main>
         <section id="gallery-section">
             <h2>Tower Gallery</h2>
-            <div class="gallery-grid">
-                {% for tower in towers %}
-                <div class="tower-profile">
-                    <a href="/profile/{{ tower.id }}">
-                        <img src="/uploads/{{ tower.id }}/{{ tower.representative_image }}" alt="Tower {{ tower.id }}" width="200">
-                    </a>
-                    <p>Tower {{ tower.id }}</p>
-                    <p>{{tower.image_count}} Images</p>
-                </div>
-                {% endfor %}
+            <div class="gallery-grid" id="tower-gallery">
             </div>
         </section>
     </main>
@@ -39,5 +30,22 @@
         <p>Lana Tran | <a href="https://www.linkedin.com/in/lana-tran-pie/">LinkedIn</a></li> | <a href="https://github.com/Pieisawesome/WeHack25#">GitHub</a>
         </p>
     </footer>
+    <script>
+        const towersData = JSON.parse('{{ towers }}');
+        const galleryDiv = document.getElementById('tower-gallery');
+
+        towersData.forEach(tower => {
+            const towerDiv = document.createElement('div');
+            towerDiv.className = 'tower-profile';
+            towerDiv.innerHTML = `
+                <a href="/profile/${tower.id}">
+                    <img src="/uploads/${tower.id}/${tower.representative_image}" alt="Tower ${tower.id}" width="200">
+                </a>
+                <p>Tower ${tower.id}</p>
+                <p>${tower.image_count} Images</p>
+            `;
+            galleryDiv.appendChild(towerDiv);
+        });
+    </script>
 </body>
 </html>
